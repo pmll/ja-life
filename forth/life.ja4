@@ -24,16 +24,15 @@ create vo
     38 c, 03 c, D6 c, 03 c, 67 c, C9 c,
 
 create neighbour-count
-    C5 c, 44 c, 4D c, 16 c, 00 c, 3E c, 01 c, CD c,
-    ho , CD c, test-neighbour , 3E c, FE c, CD c,
-    ho , CD c, test-neighbour , 3E c, E0 c, CD c,
-    vo , CD c, test-neighbour , 3E c, 01 c, CD c,
-    ho , CD c, test-neighbour , 3E c, 01 c, CD c,
-    ho , CD c, test-neighbour , 3E c, 40 c, CD c,
-    vo , CD c, test-neighbour , 3E c, FF c, CD c,
-    ho , CD c, test-neighbour , 3E c, FF c, CD c,
-    ho , CD c, test-neighbour , 60 c, 69 c, C1 c,
-    C9 c,
+    E5 c, 16 c, 00 c, 3E c, 01 c, CD c, ho ,
+    CD c, test-neighbour , 3E c, FE c, CD c, ho ,
+    CD c, test-neighbour , 3E c, E0 c, CD c, vo ,
+    CD c, test-neighbour , 3E c, 01 c, CD c, ho ,
+    CD c, test-neighbour , 3E c, 01 c, CD c, ho ,
+    CD c, test-neighbour , 3E c, 40 c, CD c, vo ,
+    CD c, test-neighbour , 3E c, FF c, CD c, ho ,
+    CD c, test-neighbour , 3E c, FF c, CD c, ho ,
+    CD c, test-neighbour , E1 c, C9 c,
 
 create update-world
     21 c, bitmap , E5 c, 21 c, 00 c, 24 c, 0E c,
