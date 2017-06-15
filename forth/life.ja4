@@ -1,0 +1,118 @@
+16384 15384 !
+
+: res
+    0 do 0 c, loop
+;
+
+create bitmap
+    96 res
+
+16 base c!
+
+create test-neighbour
+    7E c, E6 c, DF c, 28 c, 01 c, 14 c, C9 c,
+
+create ho
+    85 c, E6 c, 1F c, 5F c, 7D c, E6 c, E0 c, B3 c,
+    6F c, C9 c,
+
+create vo
+    CB c, 7F c, 20 c, 07 c, 85 c, 6F c, 30 c, 0C c,
+    24 c, 18 c, 09 c, ED c, 44 c, 5F c, 7D c, 93 c,
+    6F c, 30 c, 01 c, 25 c, 7C c, FE c, 24 c, 30 c,
+    05 c, C6 c, 03 c, 67 c, 18 c, 07 c, FE c, 27 c,
+    38 c, 03 c, D6 c, 03 c, 67 c, C9 c,
+
+create neighbour-count
+    C5 c, 44 c, 4D c, 16 c, 00 c, 3E c, 01 c, CD c,
+    ho , CD c, test-neighbour , 3E c, FE c, CD c,
+    ho , CD c, test-neighbour , 3E c, E0 c, CD c,
+    vo , CD c, test-neighbour , 3E c, 01 c, CD c,
+    ho , CD c, test-neighbour , 3E c, 01 c, CD c,
+    ho , CD c, test-neighbour , 3E c, 40 c, CD c,
+    vo , CD c, test-neighbour , 3E c, FF c, CD c,
+    ho , CD c, test-neighbour , 3E c, FF c, CD c,
+    ho , CD c, test-neighbour , 60 c, 69 c, C1 c,
+    C9 c,
+
+create update-world
+    21 c, bitmap , E5 c, 21 c, 00 c, 24 c, 0E c,
+    60 c, 06 c, 08 c, CD c, neighbour-count , 7E c, E6 c,
+    DF c, 28 c, 0B c, 7A c, FE c, 02 c, 38 c, 0E c,
+    FE c, 04 c, 30 c, 0A c, 18 c, 05 c, 7A c, FE c,
+    03 c, 20 c, 03 c, 37 c, 18 c, 01 c, A7 c, E3 c,
+    CB c, 16 c, E3 c, 23 c, 10 c, DD c, E3 c, 23 c,
+    E3 c, 0D c, 20 c, D5 c, E1 c, 11 c, bitmap ,
+    21 c, 00 c, 24 c, 0E c, 60 c, 06 c, 08 c, 1A c,
+    CB c, 27 c, 38 c, 04 c, 36 c, 20 c, 18 c, 02 c,
+    36 c, 4F c, 23 c, 10 c, F3 c, 13 c, 0D c, 20 c,
+    EC c, FD c, E9 c,
+
+decimal
+
+: life
+    begin
+        update-world call
+    0 until
+;
+
+: gen-life
+    9216
+    15403 @ 4096 and dup 768 + swap do
+        dup
+        i c@ 3 and 3 = if
+            ascii O
+        else
+            32
+        then
+        swap c!
+        1+
+    loop
+    life
+;
+
+: entex
+    dup c@ 128 xor over c!
+;
+
+: move
+    3 pick = if
+        dup abs 1 > if
+            rot entex + 768 mod 9216 +
+	    else
+            3 pick entex + 31 and
+            rot -32 and or 
+	    then
+        entex swap
+    else
+        drop
+    then
+;
+
+: toggle
+    dup c@ [ 255 128 - 32 - ] literal and 0= if 
+        [ ascii O 128 + ] literal 
+    else 
+        [ 32 128 + ] literal
+    then
+    swap c!
+;
+
+: des-life
+    [ 9216 12 32 * + 16 + ] literal
+    cls
+    entex
+    begin
+        begin inkey 0= until
+        0 begin drop inkey dup until
+        -1 ascii h move
+        1 ascii l move
+        -32 ascii k move
+        32 ascii j move
+        dup 32 = if over toggle then
+	    ascii s = 
+    until
+    entex drop
+    life
+;
+
