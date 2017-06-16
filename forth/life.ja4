@@ -57,7 +57,7 @@ decimal
 
 : gen-life
     9216
-    15403 @ 4096 and dup 768 + swap do
+    15403 @ 4095 and dup 768 + swap do
         dup
         i c@ 3 and 3 = if
             ascii O
