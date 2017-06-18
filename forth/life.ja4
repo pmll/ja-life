@@ -1,11 +1,7 @@
 16384 15384 !
 
-: res
-    0 do 0 c, loop
-;
-
 create bitmap
-    96 res
+    96 allot
 
 16 base c!
 
